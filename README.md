@@ -1,2 +1,2 @@
-# hibernate
-Hibernate examples
+# Hibernate Examples
+Hibernate examples in howtodoinjava.com
