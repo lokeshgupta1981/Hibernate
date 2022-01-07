@@ -16,7 +16,6 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "ID")})
 public class AccountEntity implements Serializable 
 {
-
 	private static final long serialVersionUID = -6790693372846798580L;
 
 	@Id
