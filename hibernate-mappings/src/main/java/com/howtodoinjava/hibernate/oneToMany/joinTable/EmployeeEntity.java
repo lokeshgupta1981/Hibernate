@@ -1,5 +1,6 @@
 package com.howtodoinjava.hibernate.oneToMany.joinTable;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -21,20 +22,21 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "EMAIL") })
 public class EmployeeEntity implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = -1798070786993154676L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "ID", unique = true, nullable = false)
 	private Integer employeeId;
 
 	@Column(name = "EMAIL", unique = true, nullable = false, length = 100)
 	private String email;
 
-	@Column(name = "FIRST_NAME", unique = false, nullable = false, length = 100)
+	@Column(name = "FIRST_NAME", nullable = false, length = 100)
 	private String firstName;
 
-	@Column(name = "LAST_NAME", unique = false, nullable = false, length = 100)
+	@Column(name = "LAST_NAME", nullable = false, length = 100)
 	private String lastName;
 
 	@OneToMany(cascade=CascadeType.ALL)

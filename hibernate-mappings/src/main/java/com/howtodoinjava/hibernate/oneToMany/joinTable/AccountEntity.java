@@ -1,5 +1,6 @@
 package com.howtodoinjava.hibernate.oneToMany.joinTable;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -15,11 +16,11 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "ID")})
 public class AccountEntity implements Serializable 
 {
-
+	@Serial
 	private static final long serialVersionUID = -6790693372846798580L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "ID", unique = true, nullable = false)
 	private Integer accountId;
 
