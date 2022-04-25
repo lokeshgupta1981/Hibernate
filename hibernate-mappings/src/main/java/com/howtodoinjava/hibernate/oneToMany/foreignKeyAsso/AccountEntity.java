@@ -1,5 +1,6 @@
 package com.howtodoinjava.hibernate.oneToMany.foreignKeyAsso;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 		@UniqueConstraint(columnNames = "ID")})
 public class AccountEntity implements Serializable 
 {
+	@Serial
 	private static final long serialVersionUID = -6790693372846798580L;
 
 	@Id

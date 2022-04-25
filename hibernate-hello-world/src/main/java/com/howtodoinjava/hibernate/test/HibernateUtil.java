@@ -7,31 +7,33 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
-	private static SessionFactory sessionFactory = buildSessionFactory();
+  private static SessionFactory sessionFactory = buildSessionFactory();
 
-	private static SessionFactory buildSessionFactory() {
-		try {
-			if (sessionFactory == null) {
-				StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-						.configure().build();
-				Metadata metadata = new MetadataSources(standardRegistry)
-						.addAnnotatedClassName(
-								"com.howtodoinjava.hibernate.test.dto.EmployeeEntity")
-						.getMetadataBuilder().build();
-				sessionFactory = metadata.getSessionFactoryBuilder().build();
-			}
-			return sessionFactory;
-		}
-		catch (Throwable ex) {
-			throw new ExceptionInInitializerError(ex);
-		}
-	}
+  private static SessionFactory buildSessionFactory() {
+    try {
+      if (sessionFactory == null) {
+        StandardServiceRegistry standardRegistry
+            = new StandardServiceRegistryBuilder()
+              .configure()
+              .build();
 
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+        Metadata metadata = new MetadataSources(standardRegistry)
+            .getMetadataBuilder()
+            .build();
 
-	public static void shutdown() {
-		getSessionFactory().close();
-	}
+        sessionFactory = metadata.getSessionFactoryBuilder().build();
+      }
+      return sessionFactory;
+    } catch (Throwable ex) {
+      throw new ExceptionInInitializerError(ex);
+    }
+  }
+
+  public static SessionFactory getSessionFactory() {
+    return sessionFactory;
+  }
+
+  public static void shutdown() {
+    getSessionFactory().close();
+  }
 }

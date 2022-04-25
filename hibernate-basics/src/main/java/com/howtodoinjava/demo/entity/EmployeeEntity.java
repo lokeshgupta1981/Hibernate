@@ -1,15 +1,10 @@
-package com.howtodoinjava.hibernate.test.dto;
+package com.howtodoinjava.demo.entity;
+
+
+import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "Employee", uniqueConstraints = {
