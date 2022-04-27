@@ -1,9 +1,8 @@
 package com.howtodoinjava.basics.entity;
 
-
 import jakarta.persistence.*;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -11,55 +10,57 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Employee", uniqueConstraints = {
     @UniqueConstraint(columnNames = "ID"),
-    @UniqueConstraint(columnNames = "EMAIL") })
+    @UniqueConstraint(columnNames = "EMAIL")})
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class EmployeeEntity implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = -1798070786993154676L;
+  @Serial
+  private static final long serialVersionUID = -1798070786993154676L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", unique = true, nullable = false)
-	private Integer employeeId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID", unique = true, nullable = false)
+  private Integer employeeId;
 
-	@Column(name = "EMAIL", unique = true, nullable = false, length = 100)
-	private String email;
+  @Column(name = "EMAIL", unique = true, nullable = false, length = 100)
+  private String email;
 
-	@Column(name = "FIRST_NAME", nullable = false, length = 100)
-	private String firstName;
+  @Column(name = "FIRST_NAME", nullable = false, length = 100)
+  private String firstName;
 
-	@Column(name = "LAST_NAME", nullable = false, length = 100)
-	private String lastName;
+  @Column(name = "LAST_NAME", nullable = false, length = 100)
+  private String lastName;
 
-	public Integer getEmployeeId() {	return employeeId;	}
+  public Integer getEmployeeId() {
+    return employeeId;
+  }
 
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
-	}
+  public void setEmployeeId(Integer employeeId) {
+    this.employeeId = employeeId;
+  }
 
-	public String getEmail() {
-		return email;
-	}
+  public String getEmail() {
+    return email;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public String getFirstName() {
-		return firstName;
-	}
+  public String getFirstName() {
+    return firstName;
+  }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-	public String getLastName() {
-		return lastName;
-	}
+  public String getLastName() {
+    return lastName;
+  }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 }

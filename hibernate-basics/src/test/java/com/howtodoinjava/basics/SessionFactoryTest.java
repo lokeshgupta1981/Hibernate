@@ -8,7 +8,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +51,6 @@ public class SessionFactoryTest {
     session = sessionFactory.openSession();
     session.beginTransaction();
 
-
     EmployeeEntity emp = new EmployeeEntity();
     emp.setEmail("demo-user@mail.com");
     emp.setFirstName("demo");
@@ -73,8 +73,7 @@ public class SessionFactoryTest {
 
     try {
       StandardServiceRegistry standardRegistry
-          = new StandardServiceRegistryBuilder()
-          .configure()
+          = new StandardServiceRegistryBuilder().configure()
           .build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
@@ -89,7 +88,6 @@ public class SessionFactoryTest {
 
     session = sessionFactory.openSession();
     session.beginTransaction();
-
 
     EmployeeEntity emp = new EmployeeEntity();
     emp.setEmail("demo-user@mail.com");
