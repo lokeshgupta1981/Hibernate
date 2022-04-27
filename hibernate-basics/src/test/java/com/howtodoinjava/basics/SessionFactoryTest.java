@@ -1,6 +1,6 @@
-package com.howtodoinjava.demo;
+package com.howtodoinjava.basics;
 
-import com.howtodoinjava.demo.entity.EmployeeEntity;
+import com.howtodoinjava.basics.entity.EmployeeEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;

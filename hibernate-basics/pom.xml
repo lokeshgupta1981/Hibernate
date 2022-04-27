@@ -13,8 +13,13 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     <hibernate.version>6.0.0.Final</hibernate.version>
-    <h2.version>[2.1.212,)</h2.version>
     <javax.persistence.version>2.2</javax.persistence.version>
+    <hibernate.ehcache.version>6.0.0.Alpha7</hibernate.ehcache.version>
+    <ehcache.version>3.9.9</ehcache.version>
+    <jaxb.core.version>2.3.0.1</jaxb.core.version>
+    <jaxb.api.version>2.3.1</jaxb.api.version>
+    <logback.version>1.2.10</logback.version>
+    <h2.version>[2.1.212,)</h2.version>
     <junit.jupiter.version>5.8.1</junit.jupiter.version>
     <junit.platform.version>1.8.1</junit.platform.version>
   </properties>
@@ -34,12 +39,43 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.10</version>
+      <version>${logback.version}</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>${h2.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-jcache</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-ehcache</artifactId>
+      <version>${hibernate.ehcache.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <version>${ehcache.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-core</artifactId>
+      <version>${jaxb.core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>${jaxb.api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>${jaxb.api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

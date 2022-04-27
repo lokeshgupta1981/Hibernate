@@ -13,6 +13,6 @@
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
 		<property name="hibernate.current_session_context_class">thread</property>
-		<mapping class="com.howtodoinjava.demo.entity.EmployeeEntity" />
+		<mapping class="com.howtodoinjava.basics.entity.EmployeeEntity" />
 	</session-factory>
 </hibernate-configuration>

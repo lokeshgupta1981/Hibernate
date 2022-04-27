@@ -1,7 +1,9 @@
-package com.howtodoinjava.demo.entity;
+package com.howtodoinjava.basics.entity;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cache;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.io.Serializable;
 @Table(name = "Employee", uniqueConstraints = {
     @UniqueConstraint(columnNames = "ID"),
     @UniqueConstraint(columnNames = "EMAIL") })
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class EmployeeEntity implements Serializable {
 
 	@Serial
