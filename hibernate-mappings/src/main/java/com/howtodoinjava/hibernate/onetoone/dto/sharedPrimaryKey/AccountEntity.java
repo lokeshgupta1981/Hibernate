@@ -1,57 +1,48 @@
 package com.howtodoinjava.hibernate.onetoone.dto.sharedPrimaryKey;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
 
 @Entity(name = "SharedPrimaryKeyAccountEntity")
 @Table(name = "ACCOUNT", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "ID")})
-public class AccountEntity implements Serializable 
-{
+  @UniqueConstraint(columnNames = "ID")})
+public class AccountEntity implements Serializable {
 
-	private static final long serialVersionUID = -6790693372846798580L;
+  private static final long serialVersionUID = -6790693372846798580L;
 
-	@Id
-	@Column(name = "ID", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer accountId;
+  @Id
+  @Column(name = "ID", unique = true, nullable = false)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Integer accountId;
 
-	@Column(name = "ACC_NUMBER", unique = true, nullable = false, length = 100)
-	private String accountNumber;
-	
-	@OneToOne(mappedBy="account", cascade=CascadeType.ALL)
-	private EmployeeEntity employee; 
+  @Column(name = "ACC_NUMBER", unique = true, nullable = false, length = 100)
+  private String accountNumber;
 
-	public EmployeeEntity getEmployee() {
-		return employee;
-	}
+  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+  private EmployeeEntity employee;
 
-	public void setEmployee(EmployeeEntity employee) {
-		this.employee = employee;
-	}
+  public EmployeeEntity getEmployee() {
+    return employee;
+  }
 
-	public Integer getAccountId() {
-		return accountId;
-	}
+  public void setEmployee(EmployeeEntity employee) {
+    this.employee = employee;
+  }
 
-	public void setAccountId(Integer accountId) {
-		this.accountId = accountId;
-	}
-	
-	public String getAccountNumber() {
-		return accountNumber;
-	}
+  public Integer getAccountId() {
+    return accountId;
+  }
 
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
+  public void setAccountId(Integer accountId) {
+    this.accountId = accountId;
+  }
+
+  public String getAccountNumber() {
+    return accountNumber;
+  }
+
+  public void setAccountNumber(String accountNumber) {
+    this.accountNumber = accountNumber;
+  }
 }

@@ -9,6 +9,8 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
+
 public class TestSecondLevelCache {
 
   private static SessionFactory sessionFactory = null;
@@ -23,7 +25,6 @@ public class TestSecondLevelCache {
         .build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
-        .addAnnotatedClass(EmployeeEntity.class)
         .getMetadataBuilder()
         .build();
 
@@ -86,6 +87,7 @@ public class TestSecondLevelCache {
 
     session = sessionFactory.openSession();
     session.beginTransaction();
+    List<EmployeeEntity> emps = session.createQuery("SELECT a FROM EmployeeEntity a", EmployeeEntity.class).getResultList();
 
     session.get(EmployeeEntity.class, emp.getEmployeeId());
 

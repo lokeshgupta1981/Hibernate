@@ -1,8 +1,8 @@
 package com.howtodoinjava.hibernate.onetoone;
 
-import org.hibernate.Session;
 import com.howtodoinjava.hibernate.onetoone.dto.foreignKeyAsso.AccountEntity;
 import com.howtodoinjava.hibernate.onetoone.dto.foreignKeyAsso.EmployeeEntity;
+import org.hibernate.Session;
 
 public class TestForeignKeyAssociation {
 
@@ -20,10 +20,11 @@ public class TestForeignKeyAssociation {
     emp.setLastName("user");
 
     // Save Account
-    session.saveOrUpdate(account);
+    session.persist(account);
+    
     // Save Employee
     emp.setAccount(account);
-    session.saveOrUpdate(emp);
+    session.persist(emp);
 
     session.getTransaction().commit();
     HibernateUtil.shutdown();

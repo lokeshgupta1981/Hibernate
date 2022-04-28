@@ -50,12 +50,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
+      <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-jcache</artifactId>
       <version>${hibernate.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
+      <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-ehcache</artifactId>
       <version>${hibernate.ehcache.version}</version>
     </dependency>
@@ -63,6 +63,11 @@
       <groupId>org.ehcache</groupId>
       <artifactId>ehcache</artifactId>
       <version>${ehcache.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+      <version>6.0.0.Final</version>
     </dependency>
     <dependency>
       <groupId>com.sun.xml.bind</groupId>

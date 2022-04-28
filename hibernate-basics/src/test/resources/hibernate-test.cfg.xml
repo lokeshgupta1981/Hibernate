@@ -15,6 +15,19 @@
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">create-drop</property>
     <property name="hibernate.current_session_context_class">thread</property>
+
+    <!-- c3p0 -->
+    <property name="hibernate.connection.provider_class">
+      org.hibernate.connection.C3P0ConnectionProvider
+    </property>
+    <property name="hibernate.c3p0.min_size">10</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.timeout">300</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.idle_test_period">3000</property>
+
+    <!-- ehcache -->
     <property name="hibernate.generate_statistics">true</property>
     <property name="hibernate.cache.region.factory_class">jcache</property>
     <property name="hibernate.javax.cache.provider">
@@ -22,5 +35,6 @@
     </property>
     <property name="hibernate.javax.cache.uri">ehcache.xml</property>
     <property name="hibernate.cache.use_second_level_cache">true</property>
+    <mapping class="com.howtodoinjava.basics.entity.EmployeeEntity"/>
   </session-factory>
 </hibernate-configuration>
