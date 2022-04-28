@@ -35,12 +35,12 @@ public class SessionFactoryTest {
 
     try {
       ServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-        .applySettings(settings).build();
+          .applySettings(settings).build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
-        .addAnnotatedClass(EmployeeEntity.class)
-        .getMetadataBuilder()
-        .build();
+          .addAnnotatedClass(EmployeeEntity.class)
+          .getMetadataBuilder()
+          .build();
 
       sessionFactory = metadata.getSessionFactoryBuilder().build();
 
@@ -73,14 +73,12 @@ public class SessionFactoryTest {
 
     try {
       StandardServiceRegistry standardRegistry
-        = new StandardServiceRegistryBuilder()
-        .configure("hibernate-test.cfg.xml")
-        .build();
+          = new StandardServiceRegistryBuilder().configure()
+          .build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
-        .addAnnotatedClass(EmployeeEntity.class)
-        .getMetadataBuilder()
-        .build();
+          .getMetadataBuilder()
+          .build();
 
       sessionFactory = metadata.getSessionFactoryBuilder().build();
 
