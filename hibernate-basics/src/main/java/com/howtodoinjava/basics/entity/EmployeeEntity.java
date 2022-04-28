@@ -8,9 +8,10 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "TBL_EMPLOYEE", uniqueConstraints = {
-  @UniqueConstraint(columnNames = "ID"),
-  @UniqueConstraint(columnNames = "EMAIL")})
+@Table(name = "Employee", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "ID"),
+    @UniqueConstraint(columnNames = "EMAIL")})
+@Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class EmployeeEntity implements Serializable {
 

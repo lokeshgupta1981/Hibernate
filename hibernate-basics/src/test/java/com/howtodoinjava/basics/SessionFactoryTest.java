@@ -30,8 +30,8 @@ public class SessionFactoryTest {
     settings.put("hibernate.format_sql", "true");
     settings.put("hibernate.hbm2ddl.auto", "create-drop");
 
-    SessionFactory sessionFactory;
-    Session session;
+    SessionFactory sessionFactory = null;
+    Session session = null;
 
     try {
       ServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
@@ -68,8 +68,8 @@ public class SessionFactoryTest {
 
   @Test
   void createSessionFactoryWithXML() {
-    SessionFactory sessionFactory;
-    Session session;
+    SessionFactory sessionFactory = null;
+    Session session = null;
 
     try {
       StandardServiceRegistry standardRegistry
