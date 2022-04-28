@@ -3,13 +3,7 @@ package com.howtodoinjava.hibernate.oneToMany.joinTable;
 import java.io.Serial;
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 
 @Entity(name = "JoinTableAccountEntity")
 @Table(name = "ACCOUNT", uniqueConstraints = {

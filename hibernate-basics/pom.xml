@@ -15,7 +15,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     <hibernate.version>6.0.0.Final</hibernate.version>
-    <javax.persistence.version>2.2</javax.persistence.version>
+    <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
     <hibernate.ehcache.version>6.0.0.Alpha7</hibernate.ehcache.version>
     <ehcache.version>3.9.9</ehcache.version>
     <jaxb.core.version>2.3.0.1</jaxb.core.version>
@@ -33,9 +33,9 @@
       <version>${hibernate.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.persistence</groupId>
-      <artifactId>javax.persistence-api</artifactId>
-      <version>${javax.persistence.version}</version>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <version>${jakarta.persistence.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

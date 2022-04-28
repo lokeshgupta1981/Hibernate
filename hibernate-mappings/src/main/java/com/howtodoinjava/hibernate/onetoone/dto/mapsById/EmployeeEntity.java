@@ -2,21 +2,11 @@ package com.howtodoinjava.hibernate.onetoone.dto.mapsById;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 
 
 @Entity(name = "MapsByIdEmployeeEntity")
-@Table(name = "Employee", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "ID"),
-		@UniqueConstraint(columnNames = "EMAIL") })
+@Table(name = "EMPLOYEE")
 public class EmployeeEntity implements Serializable {
 	
 	private static final long serialVersionUID = -1798070786993154676L;
