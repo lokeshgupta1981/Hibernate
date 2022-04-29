@@ -19,7 +19,7 @@ public class TestOneToManyForeignKeyAssociation {
 
 
   @BeforeAll
-  static void setup(){
+  static void setup() {
     try {
       StandardServiceRegistry standardRegistry
           = new StandardServiceRegistryBuilder()
@@ -41,18 +41,18 @@ public class TestOneToManyForeignKeyAssociation {
   }
 
   @BeforeEach
-  void setupThis(){
+  void setupThis() {
     session = sessionFactory.openSession();
     session.beginTransaction();
   }
 
   @AfterEach
-  void tearThis(){
+  void tearThis() {
     session.getTransaction().commit();
   }
 
   @AfterAll
-  static void tear(){
+  static void tear() {
     sessionFactory.close();
   }
 
@@ -68,27 +68,26 @@ public class TestOneToManyForeignKeyAssociation {
     account3.setAccountNumber("Account detail 3");
 
     //Add new Employee object
-    EmployeeEntity firstEmployee = new EmployeeEntity();
-    firstEmployee.setEmail("demo-user-first@mail.com");
-    firstEmployee.setFirstName("demo-one");
-    firstEmployee.setLastName("user-one");
+    EmployeeEntity employee = new EmployeeEntity();
+    employee.setEmail("demo-user-first@mail.com");
+    employee.setFirstName("demo-one");
+    employee.setLastName("user-one");
 
-    EmployeeEntity secondEmployee = new EmployeeEntity();
-    secondEmployee.setEmail("demo-user-second@mail.com");
-    secondEmployee.setFirstName("demo-two");
-    secondEmployee.setLastName("user-two");
+    Set<AccountEntity> accountList = new HashSet<AccountEntity>();
+    accountList.add(account1);
+    accountList.add(account2);
+    accountList.add(account3);
 
-    Set<AccountEntity> accountsOfFirstEmployee = new HashSet<AccountEntity>();
-    accountsOfFirstEmployee.add(account1);
-    accountsOfFirstEmployee.add(account2);
+    employee.setAccounts(accountList);
 
-    Set<AccountEntity> accountsOfSecondEmployee = new HashSet<AccountEntity>();
-    accountsOfSecondEmployee.add(account3);
-
-    firstEmployee.setAccounts(accountsOfFirstEmployee);
-    secondEmployee.setAccounts(accountsOfSecondEmployee);
     //Save Employee
-    session.save(firstEmployee);
-    session.save(secondEmployee);
+    session.persist(employee);
+    session.flush();
+
+    employee.getAccounts().remove(account3);
+    session.flush();
+
+    session.remove(employee);
+    session.flush();
   }
 }

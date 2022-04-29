@@ -1,15 +1,14 @@
 package com.howtodoinjava.hibernate.manyToMany.joinTable;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Set;
-
-import jakarta.persistence.*;
 
 @Entity(name = "SubscriptionEntity")
 @Table(name = "SUBSCRIPTION", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "ID")})
-public class SubscriptionEntity implements Serializable 
-{
+public class SubscriptionEntity implements Serializable {
 
 	private static final long serialVersionUID = -6790693372846798580L;
 
@@ -20,8 +19,9 @@ public class SubscriptionEntity implements Serializable
 
 	@Column(name = "SUBS_NAME", unique = true, nullable = false, length = 100)
 	private String subscriptionName;
-	
-	@ManyToMany(mappedBy="subscriptions")
+
+	@ManyToMany(mappedBy = "subscriptions",
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Set<ReaderEntity> readers;
 
 	public Integer getSubscriptionId() {

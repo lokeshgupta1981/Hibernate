@@ -19,7 +19,7 @@ public class TestManyToManyJoinTableAssociation {
 
 
   @BeforeAll
-  static void setup(){
+  static void setup() {
     try {
       StandardServiceRegistry standardRegistry
           = new StandardServiceRegistryBuilder()
@@ -41,18 +41,18 @@ public class TestManyToManyJoinTableAssociation {
   }
 
   @BeforeEach
-  void setupThis(){
+  void setupThis() {
     session = sessionFactory.openSession();
     session.beginTransaction();
   }
 
   @AfterEach
-  void tearThis(){
+  void tearThis() {
     session.getTransaction().commit();
   }
 
   @AfterAll
-  static void tear(){
+  static void tear() {
     sessionFactory.close();
   }
 
@@ -87,7 +87,7 @@ public class TestManyToManyJoinTableAssociation {
     readerOne.setSubscriptions(subs);
     readerTwo.setSubscriptions(subs);
 
-    session.save(readerOne);
-    session.save(readerTwo);
+    session.persist(readerOne);
+    session.persist(readerTwo);
   }
 }
