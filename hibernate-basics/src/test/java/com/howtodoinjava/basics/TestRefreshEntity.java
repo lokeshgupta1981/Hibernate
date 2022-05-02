@@ -7,13 +7,13 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class HelloTest {
-
+public class TestRefreshEntity {
   private static SessionFactory sessionFactory = null;
-  private Session session = null;
-
 
   @BeforeAll
   static void setup() {
@@ -36,46 +36,26 @@ public class HelloTest {
     }
   }
 
-  @BeforeEach
-  void setupThis() {
-    session = sessionFactory.openSession();
-    session.beginTransaction();
-  }
-
-  @AfterEach
-  void tearThis() {
-    session.getTransaction().commit();
-  }
-
   @AfterAll
   static void tear() {
     sessionFactory.close();
   }
 
   @Test
-  void createSessionFactoryWithXML() {
+  void verifyDataIsRefreshed() {
+    Session sessionOne = sessionFactory.openSession();
+    Session sessionTwo = sessionFactory.openSession();
+
+    sessionOne.getTransaction().begin();
+    sessionTwo.getTransaction().begin();
+
     EmployeeEntity emp = new EmployeeEntity();
-    emp.setEmail("howtodoinjava@gmail.com");
+    emp.setEmail("demo-user@mail.com");
     emp.setFirstName("demo");
     emp.setLastName("user");
 
-    Assertions.assertNull(emp.getEmployeeId());
-
-    session.persist(emp);
-
+    //Persist in session 1
+    sessionOne.persist(emp);
     Assertions.assertNotNull(emp.getEmployeeId());
-
-    session.getTransaction().commit();
-    session.close();
-
-    session = sessionFactory.openSession();
-    session.getTransaction().begin();
-
-    session.byNaturalId(EmployeeEntity.class)
-        .using("email", "howtodoinjava@gmail.com")
-        .load();
-
-    session.bySimpleNaturalId(EmployeeEntity.class)
-        .load("howtodoinjava@gmail.com");
   }
 }

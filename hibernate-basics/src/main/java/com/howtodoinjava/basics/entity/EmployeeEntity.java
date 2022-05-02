@@ -3,6 +3,7 @@ package com.howtodoinjava.basics.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalId;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,16 +21,18 @@ public class EmployeeEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID", unique = true, nullable = false)
+  @Column(name = "ID")
   private Integer employeeId;
 
-  @Column(name = "EMAIL", unique = true, nullable = false, length = 100)
+  @NaturalId
+  @Column
   private String email;
 
-  @Column(name = "FIRST_NAME", nullable = false, length = 100)
+  @NaturalId
+  @Column
   private String firstName;
 
-  @Column(name = "LAST_NAME", nullable = false, length = 100)
+  @Column
   private String lastName;
 
   public Integer getEmployeeId() {

@@ -1,13 +1,13 @@
 package com.howtodoinjava.demo;
 
-import com.howtodoinjava.demo.entity.EmployeeEntity;
+import com.howtodoinjava.demo.entity.Competition;
+import com.howtodoinjava.demo.entity.Nomination;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
-public class TestBootstrapping {
-
+public class TestGetReference {
   private static EntityManagerFactory emf;
   private EntityManager em;
 
@@ -32,18 +32,25 @@ public class TestBootstrapping {
   }
 
   @Test
-  void helloWorld() {
-    EmployeeEntity emp = new EmployeeEntity();
-    emp.setEmail("demo-user@mail.com");
-    emp.setFirstName("demo");
-    emp.setLastName("user");
-
-    Assertions.assertNull(emp.getEmployeeId());
+  void testGetReference() {
 
     em.getTransaction().begin();
-    em.persist(emp);
+    Competition competition = new Competition();
+    competition.setTitle("Test");
+    em.persist(competition);
     em.getTransaction().commit();
+    em.close();
 
-    Assertions.assertNotNull(emp.getEmployeeId());
+    em = emf.createEntityManager();
+    em.getTransaction().begin();
+
+    Competition competitionRef = em.getReference(Competition.class, 1L);
+
+    Nomination nomination = new Nomination();
+    nomination.setName("Test");
+    nomination.setCompetition(competitionRef);
+
+    em.persist(nomination);
+    em.getTransaction().commit();
   }
 }

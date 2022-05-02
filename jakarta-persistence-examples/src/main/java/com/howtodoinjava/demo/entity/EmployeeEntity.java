@@ -5,6 +5,22 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 
+
+@NamedStoredProcedureQuery(
+    name = "addEmployeeProcedure",
+    procedureName = "ADD_EMPLOYEE_PROCEDURE",
+    resultClasses = {EmployeeEntity.class},
+    parameters = {
+        @StoredProcedureParameter(name = "firstName", type = String.class,
+            mode = ParameterMode.IN),
+        @StoredProcedureParameter(name = "lastName", type = String.class,
+            mode = ParameterMode.IN),
+        @StoredProcedureParameter(name = "email", type = String.class, mode =
+            ParameterMode.IN),
+        @StoredProcedureParameter(name = "departmentId", type = Integer.class
+            , mode = ParameterMode.IN)
+    }
+)
 @Entity
 @Table(name = "TBL_EMPLOYEE")
 public class EmployeeEntity implements Serializable {
