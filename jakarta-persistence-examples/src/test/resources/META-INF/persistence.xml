@@ -6,8 +6,10 @@
     <persistence-unit name="H2DB">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.howtodoinjava.demo.entity.EmployeeEntity</class>
+        <class>com.howtodoinjava.demo.entity.DepartmentEntity</class>
         <class>com.howtodoinjava.demo.entity.Competition</class>
         <class>com.howtodoinjava.demo.entity.Nomination</class>
+        <class>com.howtodoinjava.demo.entity.Book</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="jakarta.persistence.jdbc.driver"
