@@ -1,6 +1,7 @@
 package com.howtodoinjava.demo.mappings.onetotone;
 
-import org.hibernate.Hibernate;
+import com.howtodoinjava.hibernate.onetoone.dto.foreignKeyAsso.AccountEntity;
+import com.howtodoinjava.hibernate.onetoone.dto.foreignKeyAsso.EmployeeEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -9,16 +10,12 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.junit.jupiter.api.*;
 
-import com.howtodoinjava.hibernate.onetoone.dto.foreignKeyAsso.AccountEntity;
-import com.howtodoinjava.hibernate.onetoone.dto.foreignKeyAsso.EmployeeEntity;
-
 public class TestForeignKeyAssociation {
   private static SessionFactory sessionFactory = null;
   private Session session = null;
 
-
   @BeforeAll
-  static void setup(){
+  static void setup() {
     try {
       StandardServiceRegistry standardRegistry
           = new StandardServiceRegistryBuilder()
@@ -40,18 +37,18 @@ public class TestForeignKeyAssociation {
   }
 
   @BeforeEach
-  void setupThis(){
+  void setupThis() {
     session = sessionFactory.openSession();
     session.beginTransaction();
   }
 
   @AfterEach
-  void tearThis(){
+  void tearThis() {
     session.getTransaction().commit();
   }
 
   @AfterAll
-  static void tear(){
+  static void tear() {
     sessionFactory.close();
   }
 
