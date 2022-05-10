@@ -13,7 +13,7 @@ import java.io.Serializable;
     @UniqueConstraint(columnNames = "ID"),
     @UniqueConstraint(columnNames = "EMAIL")})
 @Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class EmployeeEntity implements Serializable {
 
   @Serial
@@ -28,7 +28,6 @@ public class EmployeeEntity implements Serializable {
   @Column
   private String email;
 
-  @NaturalId
   @Column
   private String firstName;
 
