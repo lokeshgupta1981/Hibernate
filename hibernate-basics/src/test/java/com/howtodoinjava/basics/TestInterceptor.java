@@ -1,7 +1,7 @@
 package com.howtodoinjava.basics;
 
-import com.howtodoinjava.basics.entity.AuditInterceptor;
 import com.howtodoinjava.basics.entity.EmployeeEntity;
+import com.howtodoinjava.basics.entity.interceptor.AuditInterceptor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -18,19 +18,19 @@ public class TestInterceptor {
   static void setup() {
     try {
       StandardServiceRegistry standardRegistry
-          = new StandardServiceRegistryBuilder()
-          .configure("hibernate-test.cfg.xml")
-          .build();
+        = new StandardServiceRegistryBuilder()
+        .configure("hibernate-test.cfg.xml")
+        .build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
-          .addAnnotatedClass(EmployeeEntity.class)
-          .getMetadataBuilder()
-          .build();
+        .addAnnotatedClass(EmployeeEntity.class)
+        .getMetadataBuilder()
+        .build();
 
       sessionFactory = metadata
-          .getSessionFactoryBuilder()
-          .applyInterceptor(new AuditInterceptor())
-          .build();
+        .getSessionFactoryBuilder()
+        .applyInterceptor(new AuditInterceptor())
+        .build();
 
     } catch (Throwable ex) {
       throw new ExceptionInInitializerError(ex);
@@ -40,7 +40,7 @@ public class TestInterceptor {
   @Test
   public void testAuditLogging() {
     try (Session session = sessionFactory.withOptions()
-        .interceptor(new AuditInterceptor()).openSession()) {
+      .interceptor(new AuditInterceptor()).openSession()) {
       session.getTransaction().begin();
 
       EmployeeEntity employee = new EmployeeEntity();

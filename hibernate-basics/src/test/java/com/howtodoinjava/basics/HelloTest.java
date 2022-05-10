@@ -14,22 +14,22 @@ public class HelloTest {
   private static SessionFactory sessionFactory = null;
   private Session session = null;
 
-
   @BeforeAll
   static void setup() {
     try {
       StandardServiceRegistry standardRegistry
-          = new StandardServiceRegistryBuilder()
-          .configure("hibernate-test.cfg.xml")
-          .build();
+        = new StandardServiceRegistryBuilder()
+        .configure("hibernate-test.cfg.xml")
+        .build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
-          .addAnnotatedClass(EmployeeEntity.class)
-          .getMetadataBuilder()
-          .build();
+        .addAnnotatedClass(EmployeeEntity.class)
+        .getMetadataBuilder()
+        .build();
 
       sessionFactory = metadata
-          .getSessionFactoryBuilder().build();
+        .getSessionFactoryBuilder()
+        .build();
 
     } catch (Throwable ex) {
       throw new ExceptionInInitializerError(ex);
@@ -65,6 +65,8 @@ public class HelloTest {
 
     Assertions.assertNotNull(emp.getEmployeeId());
 
+    emp.setFirstName("demo11");
+
     session.getTransaction().commit();
     session.close();
 
@@ -72,10 +74,10 @@ public class HelloTest {
     session.getTransaction().begin();
 
     session.byNaturalId(EmployeeEntity.class)
-        .using("email", "howtodoinjava@gmail.com")
-        .load();
+      .using("email", "howtodoinjava@gmail.com")
+      .load();
 
     session.bySimpleNaturalId(EmployeeEntity.class)
-        .load("howtodoinjava@gmail.com");
+      .load("howtodoinjava@gmail.com");
   }
 }

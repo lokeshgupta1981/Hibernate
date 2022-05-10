@@ -1,4 +1,4 @@
-package com.howtodoinjava.basics.entity;
+package com.howtodoinjava.basics.entity.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.CallbackException;
@@ -28,10 +28,10 @@ public class AuditInterceptor implements Interceptor {
     }
 
     return Interceptor.super.onFlushDirty(entity,
-        id,
-        currentState,
-        previousState,
-        propertyNames,
-        types);
+      id,
+      currentState,
+      previousState,
+      propertyNames,
+      types);
   }
 }
