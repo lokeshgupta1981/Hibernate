@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.massindexing.MassIndexer;
+import org.hibernate.search.mapper.orm.schema.management.SearchSchemaManager;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.junit.jupiter.api.*;
 
@@ -24,18 +25,18 @@ public class TestLuceneSearch {
   static void setup() {
     try {
       StandardServiceRegistry standardRegistry
-        = new StandardServiceRegistryBuilder()
-        .configure("hibernate-test.cfg.xml")
-        .build();
+          = new StandardServiceRegistryBuilder()
+          .configure("hibernate-test.cfg.xml")
+          .build();
 
       Metadata metadata = new MetadataSources(standardRegistry)
-        .addAnnotatedClass(Product.class)
-        .getMetadataBuilder()
-        .build();
+          .addAnnotatedClass(Product.class)
+          .getMetadataBuilder()
+          .build();
 
       sessionFactory = metadata
-        .getSessionFactoryBuilder()
-        .build();
+          .getSessionFactoryBuilder()
+          .build();
 
       setupData();
     } catch (Throwable ex) {
@@ -69,9 +70,14 @@ public class TestLuceneSearch {
   @Test
   @Order(1)
   public void massIndexingInApplicationStart() throws InterruptedException {
-    SearchSession searchSession = Search.session(sessionFactory.createEntityManager());
-    MassIndexer indexer = searchSession.massIndexer(Product.class)
-      .threadsToLoadObjects(7);
+    SearchSession searchSession =
+        Search.session(sessionFactory.createEntityManager());
+
+    SearchSchemaManager schemaManager = searchSession.schemaManager();
+    schemaManager.createIfMissing();
+
+    MassIndexer indexer = searchSession.massIndexer()
+        .threadsToLoadObjects(7);
     indexer.startAndWait();
   }
 
@@ -81,7 +87,7 @@ public class TestLuceneSearch {
     try (Session session = sessionFactory.openSession()) {
       session.getTransaction().begin();
       session.persist(Product.builder().name("Pixel 8").company("Google")
-        .features("Test Features").build());
+          .features("Test Features").build());
       session.getTransaction().commit();
     }
   }
@@ -91,13 +97,14 @@ public class TestLuceneSearch {
   public void simpleSearchByMatchingFieldValue() {
     try (Session session = sessionFactory.openSession()) {
       session.getTransaction().begin();
-      SearchSession searchSession = Search.session(sessionFactory.createEntityManager());
+      SearchSession searchSession =
+          Search.session(sessionFactory.createEntityManager());
 
       SearchResult<Product> result = searchSession.search(Product.class)
-        .where(f -> f.match()
-          .fields("name")
-          .matching("iPhone 7"))
-        .fetch(10);
+          .where(f -> f.match()
+              .fields("name")
+              .matching("iPhone 7"))
+          .fetch(10);
 
       long totalHitCount = result.total().hitCount();
       List<Product> hits = result.hits();
@@ -113,20 +120,20 @@ public class TestLuceneSearch {
   public void fullTextSearchOnProductFeatures() {
     try (Session session = sessionFactory.openSession()) {
       session.getTransaction().begin();
-      SearchSession searchSession = Search.session(sessionFactory.createEntityManager());
+      SearchSession searchSession =
+          Search.session(sessionFactory.createEntityManager());
 
       SearchResult<Product> result = searchSession.search(Product.class)
-        .where(f -> f.terms()
-          .fields("name")
-          .matchingAll("iPhone"))
-        .fetch(10);
+          .where(f -> f.terms()
+              .fields("features")
+              .matchingAll("accelerometer"))
+          .fetch(10);
 
       long totalHitCount = result.total().hitCount();
       List<Product> hits = result.hits();
       session.getTransaction().commit();
 
-      Assertions.assertEquals(1, totalHitCount);
-      Assertions.assertEquals("iPhone 7", hits.get(0).getName());
+      Assertions.assertEquals(5, totalHitCount);
     }
   }
 

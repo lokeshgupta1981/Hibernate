@@ -31,7 +31,7 @@ public class Product {
 
   @FullTextField
   private String features;
-
+  
   @GenericField
   private LocalDate launchedOn;
 
