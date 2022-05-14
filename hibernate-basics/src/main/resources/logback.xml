@@ -12,6 +12,7 @@
     <logger name="org.hibernate" level="INFO"/>
     <logger name="org.hibernate.search" level="DEBUG"/>
     <logger name="com.howtodoinjava" level="DEBUG"/>
+    <logger name="org.springframework" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

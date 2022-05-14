@@ -10,10 +10,19 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Employee", uniqueConstraints = {
-  @UniqueConstraint(columnNames = "ID"),
-  @UniqueConstraint(columnNames = "EMAIL")})
+    @UniqueConstraint(columnNames = "ID"),
+    @UniqueConstraint(columnNames = "EMAIL")})
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@NamedStoredProcedureQuery(
+    name = "getEmployeeByIdProcedure",
+    procedureName = "get_employee_details_by_id",
+    resultClasses = {EmployeeEntity.class},
+    parameters = {
+        @StoredProcedureParameter(name = "employeeId", type = Integer.class,
+            mode = ParameterMode.IN)
+    }
+)
 public class EmployeeEntity implements Serializable {
 
   @Serial
