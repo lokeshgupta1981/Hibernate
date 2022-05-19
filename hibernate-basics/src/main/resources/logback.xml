@@ -8,9 +8,13 @@
         </encoder>
     </appender>
 
-    <logger name="org.hibernate.type" level="ERROR"/>
-    <logger name="org.hibernate" level="INFO"/>
+
+    <logger name="org.hibernate.engine.jdbc.batch.internal.BatchingBatch"
+            level="DEBUG"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
     <logger name="org.hibernate.search" level="DEBUG"/>
+    <logger name="org.hibernate" level="INFO"/>
+
     <logger name="com.howtodoinjava" level="DEBUG"/>
     <logger name="org.springframework" level="DEBUG"/>
 
