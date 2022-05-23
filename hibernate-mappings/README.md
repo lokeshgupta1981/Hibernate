@@ -1,4 +1,7 @@
 # Related Tutorials
-1. [Hibernate one to many mapping annotation example](https://howtodoinjava.com/hibernate/hibernate-one-to-many-mapping-using-annotations/)
-2. [Hibernate many to many mapping annotation example](https://howtodoinjava.com/hibernate/hibernate-many-to-many-mapping-using-annotations/)
-3. [Hibernate One to One Mapping Annotation Example](https://howtodoinjava.com/hibernate/hibernate-one-to-one-mapping/)
+
+* [Defining Hibernate Association Mappings](https://howtodoinjava.com/hibernate/how-to-define-association-mappings-between-hibernate-entities/)
+* [Hibernate One to One Mapping](https://howtodoinjava.com/hibernate/hibernate-one-to-one-mapping/)
+* [Hibernate One to Many Mapping](https://howtodoinjava.com/hibernate/hibernate-one-to-many-mapping/)
+* [Hibernate Many to Many Mapping](https://howtodoinjava.com/hibernate/hibernate-many-to-many-mapping/)
+* [Hibernate Mapping Date, Time and Timestamp](https://howtodoinjava.com/hibernate/date-time-mappings/)
