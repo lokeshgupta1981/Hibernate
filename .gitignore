@@ -355,3 +355,5 @@ pom.xml.tag
 /.idea/libraries/Maven__org_springframework_spring_webmvc_6_0_11.xml
 /.idea/libraries/Maven__org_xmlunit_xmlunit_core_2_9_1.xml
 /.idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml
+/.idea/sqldialects.xml
+/.idea/inspectionProfiles/Project_Default.xml

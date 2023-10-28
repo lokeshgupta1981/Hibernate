@@ -6,9 +6,13 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestLoBData {
@@ -46,10 +50,13 @@ public class TestLoBData {
   }
 
   @Test
-  public void testPersistAndFetchBook() throws IOException {
+  public void testPersistAndFetchBook() throws IOException, URISyntaxException {
     Book book = new Book();
     book.setName("Hibernate");
-    book.setCover(Files.readAllBytes(Paths.get("C:/temp/book.png")));
+
+    ClassLoader classLoader = getClass().getClassLoader();
+    File file = new File(classLoader.getResource("IDEA.png").getFile());
+    book.setCover(Files.readAllBytes(file.toPath()));
 
     em.persist(book);
     flushAndClear();
