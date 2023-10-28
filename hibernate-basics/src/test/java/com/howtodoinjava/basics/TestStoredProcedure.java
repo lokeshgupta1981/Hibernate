@@ -16,15 +16,28 @@ import org.hibernate.result.UpdateCountOutput;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 import java.util.stream.LongStream;
 
+@Testcontainers
 public class TestStoredProcedure {
   private static SessionFactory sessionFactory = null;
 
+  @Container
+  private static final MySQLContainer MYSQL_CONTAINER = (MySQLContainer) new MySQLContainer()
+    .withDatabaseName("testdb")
+    .withUsername("root")
+    .withPassword("password")
+    .withInitScript("storedProcedures.sql")
+    .withReuse(true);
+
   @BeforeAll
   static void setup() {
+    System.setProperty("db.port", MYSQL_CONTAINER.getFirstMappedPort().toString());
     try {
       StandardServiceRegistry standardRegistry
           = new StandardServiceRegistryBuilder()
