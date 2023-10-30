@@ -49,7 +49,7 @@ public class EmployeeEntity implements Serializable {
   @ElementCollection
   @CollectionTable(name = "Emails", joinColumns = @JoinColumn(name = "employeeId"))
   @Column(name = "Email")
-  //@SoftDelete
+  @SoftDelete
   private Collection<String> phoneNumbers = new ArrayList<>();
 
   public Collection<String> getPhoneNumbers() {

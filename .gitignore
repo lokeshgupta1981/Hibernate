@@ -357,3 +357,4 @@ pom.xml.tag
 /.idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml
 /.idea/sqldialects.xml
 /.idea/inspectionProfiles/Project_Default.xml
+/.idea/dataSources.xml
