@@ -1,4 +1,4 @@
-package com.howtodoinjava.hibernate.demo;
+package com.howtodoinjava.hibernate.demo.softDelete;
 
 import com.howtodoinjava.hibernate.demo.entity.EmployeeEntity;
 import jakarta.persistence.EntityManager;
@@ -35,7 +35,7 @@ class SoftDeleteTests {
     emf = Persistence.createEntityManagerFactory("mysql-persistence");
   }
 
-  //@Test
+  @Test
   void softDeleteWithDeletedColumn() {
     EmployeeEntity emp = new EmployeeEntity("Lokesh", "Gupta", "admin@howtodoinjava.com");
 
@@ -92,7 +92,7 @@ class SoftDeleteTests {
     Hibernate: update Employee set ACT=0 where ID=? and ACT=1*/
   }
 
-  @Test
+  //@Test
   void softDeleteCollectionWithDeletedColumn() {
     EmployeeEntity emp = new EmployeeEntity("Amit", "Gupta", "amit@email.com");
     emp.setPhoneNumbers(List.of("111111", "222222", "333333"));
