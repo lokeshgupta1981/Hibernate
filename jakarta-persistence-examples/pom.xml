@@ -15,7 +15,7 @@
         <hibernate.version>6.0.0.Final</hibernate.version>
         <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
         <logback.version>1.2.11</logback.version>
-        <h2.version>2.1.212</h2.version>
+        <h2.version>2.2.220</h2.version>
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <junit.platform.version>1.8.2</junit.platform.version>
     </properties>
