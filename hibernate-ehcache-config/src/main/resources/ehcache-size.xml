@@ -1,0 +1,23 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+  <!-- Heap limited by memory instead of entries -->
+  <cache alias="com.howtodoinjava.hibernate.ehcacheconfig.Language">
+    <heap unit="kB">64</heap>
+  </cache>
+
+  <cache alias="translations">
+    <heap unit="entries">100</heap>
+  </cache>
+  <cache alias="com.howtodoinjava.hibernate.ehcacheconfig.Language.translations">
+    <heap unit="entries">100</heap>
+  </cache>
+  <cache alias="default-query-results-region">
+    <heap unit="entries">100</heap>
+  </cache>
+  <cache alias="default-update-timestamps-region">
+    <expiry>
+      <none/>
+    </expiry>
+    <heap unit="entries">100</heap>
+  </cache>
+</config>

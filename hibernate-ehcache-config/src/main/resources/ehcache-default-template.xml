@@ -1,0 +1,19 @@
+<config xmlns="http://www.ehcache.org/v3"
+        xmlns:jsr107="http://www.ehcache.org/v3/jsr107">
+
+  <!-- Caches created at runtime use this template -->
+  <service>
+    <jsr107:defaults default-template="fallback"/>
+  </service>
+
+  <cache-template name="fallback">
+    <expiry>
+      <ttl unit="minutes">10</ttl>
+    </expiry>
+    <heap unit="entries">1000</heap>
+  </cache-template>
+
+  <cache alias="com.howtodoinjava.hibernate.ehcacheconfig.Language">
+    <heap unit="entries">500</heap>
+  </cache>
+</config>

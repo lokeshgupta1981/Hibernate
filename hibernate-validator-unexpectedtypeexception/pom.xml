@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.howtodoinjava</groupId>
+  <artifactId>hibernate-validator-unexpectedtypeexception</artifactId>
+  <version>1.0.0</version>
+  <name>Hibernate Validator - UnexpectedTypeException</name>
+
+  <properties>
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <hibernate-validator.version>9.1.4.Final</hibernate-validator.version>
+    <expressly.version>6.0.0</expressly.version>
+    <slf4j.version>2.0.20</slf4j.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>6.1.3</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- Hibernate Validator 9.1 implements Jakarta Validation 3.1 -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator.version}</version>
+    </dependency>
+    <!-- Jakarta Expression Language implementation, used to build the violation messages -->
+    <dependency>
+      <groupId>org.glassfish.expressly</groupId>
+      <artifactId>expressly</artifactId>
+      <version>${expressly.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <!-- Only used by the test that shows the compile-time check -->
+    <dependency>
+      <groupId>org.hibernate.validator</groupId>
+      <artifactId>hibernate-validator-annotation-processor</artifactId>
+      <version>${hibernate-validator.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.16.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.6.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.6.4</version>
+        <configuration>
+          <mainClass>com.howtodoinjava.hibernate.unexpectedtype.UnexpectedTypeDemo</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
+             version="3.2">
+
+  <!-- Broken: FerryRoute is not listed and unlisted classes are excluded -->
+  <persistence-unit name="ferry-unlisted">
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:ferry-unlisted"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
+
+  <!-- Fixed: the entity is listed -->
+  <persistence-unit name="ferry-listed">
+    <class>com.howtodoinjava.hibernate.persister.FerryRoute</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:ferry-listed"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
+
+  <!-- Scans the classes next to this persistence.xml; needs hibernate-scan-jandex in Hibernate 7 -->
+  <persistence-unit name="ferry-scanned">
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:ferry-scanned"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
+</persistence>

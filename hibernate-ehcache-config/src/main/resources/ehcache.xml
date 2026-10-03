@@ -1,0 +1,41 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+  <!-- Shared settings for reference data -->
+  <cache-template name="reference-data">
+    <expiry>
+      <ttl unit="minutes">30</ttl>
+    </expiry>
+    <heap unit="entries">500</heap>
+  </cache-template>
+
+  <!-- Entity region: the fully qualified class name -->
+  <cache alias="com.howtodoinjava.hibernate.ehcacheconfig.Language" uses-template="reference-data"/>
+
+  <!-- Collection region: class name + "." + field name -->
+  <cache alias="com.howtodoinjava.hibernate.ehcacheconfig.Language.translations" uses-template="reference-data"/>
+
+  <!-- Entity region renamed with @Cache(region = "translations"); overrides the template -->
+  <cache alias="translations" uses-template="reference-data">
+    <expiry>
+      <tti unit="minutes">10</tti>
+    </expiry>
+    <heap unit="entries">5000</heap>
+  </cache>
+
+  <!-- Query results: the default region and a named one -->
+  <cache alias="default-query-results-region">
+    <expiry>
+      <ttl unit="minutes">5</ttl>
+    </expiry>
+    <heap unit="entries">200</heap>
+  </cache>
+  <cache alias="language-queries" uses-template="reference-data"/>
+
+  <!-- Last change time per table: never expire -->
+  <cache alias="default-update-timestamps-region">
+    <expiry>
+      <none/>
+    </expiry>
+    <heap unit="entries">100</heap>
+  </cache>
+</config>

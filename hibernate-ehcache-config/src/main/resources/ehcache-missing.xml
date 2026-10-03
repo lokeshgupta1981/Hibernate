@@ -1,0 +1,16 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+  <!-- Only the Language region; translations and the collection are missing -->
+  <cache alias="com.howtodoinjava.hibernate.ehcacheconfig.Language">
+    <heap unit="entries">500</heap>
+  </cache>
+  <cache alias="default-query-results-region">
+    <heap unit="entries">100</heap>
+  </cache>
+  <cache alias="default-update-timestamps-region">
+    <expiry>
+      <none/>
+    </expiry>
+    <heap unit="entries">100</heap>
+  </cache>
+</config>

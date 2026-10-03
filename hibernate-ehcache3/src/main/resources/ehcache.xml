@@ -1,0 +1,23 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+  <!-- Airport lookup data: up to 500 entries per region, reloaded from the database after 6 hours -->
+  <cache-template name="lookup">
+    <expiry>
+      <ttl unit="hours">6</ttl>
+    </expiry>
+    <heap unit="entries">500</heap>
+  </cache-template>
+
+  <cache alias="com.howtodoinjava.hibernate.ehcache.Airport" uses-template="lookup"/>
+  <cache alias="com.howtodoinjava.hibernate.ehcache.Airline" uses-template="lookup"/>
+  <cache alias="com.howtodoinjava.hibernate.ehcache.Airline.hubs" uses-template="lookup"/>
+
+  <!-- Query cache regions (needed because hibernate.cache.use_query_cache=true) -->
+  <cache alias="default-query-results-region" uses-template="lookup"/>
+  <cache alias="default-update-timestamps-region">
+    <expiry>
+      <none/>
+    </expiry>
+    <heap unit="entries">500</heap>
+  </cache>
+</config>
