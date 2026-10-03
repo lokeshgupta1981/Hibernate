@@ -1,0 +1,23 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+  <!-- Reference data: up to 1000 entries per region, refreshed from the database every hour -->
+  <cache-template name="reference-data">
+    <expiry>
+      <ttl unit="hours">1</ttl>
+    </expiry>
+    <heap unit="entries">1000</heap>
+  </cache-template>
+
+  <cache alias="com.howtodoinjava.hibernate.secondlevelcache.Country" uses-template="reference-data"/>
+  <cache alias="com.howtodoinjava.hibernate.secondlevelcache.Country.currencies" uses-template="reference-data"/>
+  <cache alias="com.howtodoinjava.hibernate.secondlevelcache.Currency" uses-template="reference-data"/>
+  <cache alias="default-query-results-region" uses-template="reference-data"/>
+
+  <!-- Never expire or evict the update timestamps region -->
+  <cache alias="default-update-timestamps-region">
+    <expiry>
+      <none/>
+    </expiry>
+    <heap unit="entries">1000</heap>
+  </cache>
+</config>

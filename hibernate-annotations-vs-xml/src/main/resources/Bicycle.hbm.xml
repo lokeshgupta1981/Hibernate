@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- Legacy Hibernate-native XML mapping: deprecated, kept only to show what still runs -->
+<hibernate-mapping package="com.howtodoinjava.hibernate.mapping.plain" default-access="field">
+  <class name="Bicycle" table="bicycle">
+    <id name="id">
+      <generator class="sequence"/>
+    </id>
+    <property name="model" not-null="true" length="50"/>
+    <property name="frameSize" column="frame_size"/>
+    <property name="dailyRate" column="daily_rate" precision="6" scale="2"/>
+  </class>
+</hibernate-mapping>

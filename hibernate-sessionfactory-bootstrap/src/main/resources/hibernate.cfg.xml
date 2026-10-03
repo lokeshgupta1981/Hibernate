@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="jakarta.persistence.jdbc.url">jdbc:h2:mem:taskboard-xml</property>
+    <property name="jakarta.persistence.jdbc.user">sa</property>
+    <property name="jakarta.persistence.jdbc.password"></property>
+    <property name="hibernate.hbm2ddl.auto">create-drop</property>
+    <property name="hibernate.show_sql">true</property>
+    <mapping class="com.howtodoinjava.hibernate.sessionfactory.Task"/>
+  </session-factory>
+</hibernate-configuration>
