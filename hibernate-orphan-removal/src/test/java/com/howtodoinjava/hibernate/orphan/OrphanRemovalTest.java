@@ -16,26 +16,29 @@ import org.junit.jupiter.api.Test;
 class OrphanRemovalTest {
 
   private EntityManagerFactory emf;
-  private Long cartId;
+  private Long recipeId;
+  private Long chefId;
 
   @BeforeEach
   void setUp() {
     emf = Database.create(false);
-    cartId = emf.callInTransaction(em -> {
-      Tag fruit = new Tag("fruit");
-      em.persist(fruit);
-      Cart cart = new Cart("Lokesh");
-      Item apple = new Item("apple");
-      Item banana = new Item("banana");
-      Item milk = new Item("milk");
-      banana.addTag(fruit);
-      cart.addItem(apple);
-      cart.addItem(banana);
-      cart.addItem(milk);
-      cart.setCoupon(new Coupon(10));
-      em.persist(cart);
-      return cart.getId();
+    Long[] ids = emf.callInTransaction(em -> {
+      Tag breakfast = new Tag("breakfast");
+      em.persist(breakfast);
+      Chef chef = new Chef("Lokesh");
+      em.persist(chef);
+      Recipe pancakes = new Recipe("Pancakes");
+      pancakes.addStep(new Step("Whisk"));
+      pancakes.addStep(new Step("Heat"));
+      pancakes.addStep(new Step("Fry"));
+      pancakes.setNutrition(new Nutrition(350));
+      pancakes.addTag(breakfast);
+      chef.addRecipe(pancakes);
+      em.persist(pancakes);
+      return new Long[] {pancakes.getId(), chef.getId()};
     });
+    recipeId = ids[0];
+    chefId = ids[1];
   }
 
   @AfterEach
@@ -47,142 +50,155 @@ class OrphanRemovalTest {
     return Database.count(emf, entity);
   }
 
+  private List<String> stepNames() {
+    return emf.callInTransaction(em -> em
+        .createQuery("select instruction from Step order by instruction", String.class)
+        .getResultList());
+  }
+
   @Test
-  void removingItemFromCollectionDeletesTheRow() {
+  void removingStepDeletesTheRow() {
     emf.runInTransaction(em -> {
-      Cart cart = em.find(Cart.class, cartId);
-      cart.removeItem(cart.findItem("apple"));
+      Recipe pancakes = em.find(Recipe.class, recipeId);
+      pancakes.removeStep(pancakes.findStep("Heat"));
     });
-    assertEquals(2, count("Item"));
-    long apples = emf.callInTransaction(em -> em
-        .createQuery("select count(*) from Item where name = 'apple'", Long.class)
-        .getSingleResult());
-    assertEquals(0, apples);
+    assertEquals(List.of("Fry", "Whisk"), stepNames());
   }
 
   @Test
-  void withoutOrphanRemovalTheRowStaysWithNullForeignKey() {
-    Long wishlistId = emf.callInTransaction(em -> {
-      Wishlist wishlist = new Wishlist("Lokesh");
-      wishlist.addItem(new WishlistItem("pen"));
-      wishlist.addItem(new WishlistItem("book"));
-      em.persist(wishlist);
-      return wishlist.getId();
-    });
+  void clearingStepsDeletesAllRows() {
+    emf.runInTransaction(em -> em.find(Recipe.class, recipeId).getSteps().clear());
+    assertEquals(0, count("Step"));
+    assertEquals(1, count("Recipe"));
+  }
+
+  @Test
+  void removingStepsInLoopDeletesAllRows() {
     emf.runInTransaction(em -> {
-      Wishlist wishlist = em.find(Wishlist.class, wishlistId);
-      wishlist.removeItem(wishlist.findItem("pen"));
+      Recipe pancakes = em.find(Recipe.class, recipeId);
+      new ArrayList<>(pancakes.getSteps()).forEach(pancakes::removeStep);
     });
-    assertEquals(2, count("WishlistItem"));
-    long orphans = emf.callInTransaction(em -> em
-        .createQuery("select count(*) from WishlistItem where wishlist is null", Long.class)
+    assertEquals(0, count("Step"));
+  }
+
+  @Test
+  void withoutOrphanRemovalTheRecipeStaysWithNullChef() {
+    emf.runInTransaction(em -> {
+      Chef chef = em.find(Chef.class, chefId);
+      chef.removeRecipe(em.find(Recipe.class, recipeId));
+    });
+    assertEquals(1, count("Recipe"));
+    long withoutChef = emf.callInTransaction(em -> em
+        .createQuery("select count(*) from Recipe where chef is null", Long.class)
         .getSingleResult());
-    assertEquals(1, orphans);
+    assertEquals(1, withoutChef);
   }
 
   @Test
-  void settingOneToOneToNullDeletesTheCoupon() {
-    emf.runInTransaction(em -> em.find(Cart.class, cartId).setCoupon(null));
-    assertEquals(0, count("Coupon"));
+  void withoutOrphanRemovalClearOnMappedBySideRunsNoUpdate() {
+    emf.runInTransaction(em -> em.find(Chef.class, chefId).getRecipes().clear());
+    long withChef = emf.callInTransaction(em -> em
+        .createQuery("select count(*) from Recipe where chef.id = :id", Long.class)
+        .setParameter("id", chefId).getSingleResult());
+    assertEquals(1, withChef);
   }
 
   @Test
-  void replacingTheCouponDeletesTheOldOne() {
-    emf.runInTransaction(em -> em.find(Cart.class, cartId).setCoupon(new Coupon(20)));
-    assertEquals(1, count("Coupon"));
-    int discount = emf.callInTransaction(em -> em
-        .createQuery("select c.discount from Coupon c", Integer.class).getSingleResult());
-    assertEquals(20, discount);
+  void settingNutritionToNullDeletesIt() {
+    emf.runInTransaction(em -> em.find(Recipe.class, recipeId).setNutrition(null));
+    assertEquals(0, count("Nutrition"));
   }
 
   @Test
-  void mergingDetachedCartAppliesOrphanRemoval() {
-    Cart detached = emf.callInTransaction(em -> em
-        .createQuery("select c from Cart c join fetch c.items where c.id = :id", Cart.class)
-        .setParameter("id", cartId).getSingleResult());
-    detached.removeItem(detached.findItem("apple"));
+  void replacingNutritionDeletesTheOldOne() {
+    emf.runInTransaction(em -> em.find(Recipe.class, recipeId).setNutrition(new Nutrition(420)));
+    int calories = emf.callInTransaction(em -> em
+        .createQuery("select n.calories from Nutrition n", Integer.class).getSingleResult());
+    assertEquals(420, calories);
+    assertEquals(1, count("Nutrition"));
+  }
+
+  @Test
+  void mergingDetachedRecipeAppliesOrphanRemoval() {
+    Recipe detached = emf.callInTransaction(em -> em
+        .createQuery("select r from Recipe r join fetch r.steps where r.id = :id", Recipe.class)
+        .setParameter("id", recipeId).getSingleResult());
+    detached.removeStep(detached.findStep("Heat"));
     emf.runInTransaction(em -> em.merge(detached));
-    assertEquals(2, count("Item"));
+    assertEquals(List.of("Fry", "Whisk"), stepNames());
+  }
   }
 
   @Test
   void replacingTheCollectionFails() {
     RollbackException e = assertThrows(RollbackException.class, () ->
-        emf.runInTransaction(em -> em.find(Cart.class, cartId).setItems(new ArrayList<>())));
+        emf.runInTransaction(em -> em.find(Recipe.class, recipeId).setSteps(new ArrayList<>())));
     assertTrue(e.getMessage().contains(
         "A collection with orphan deletion was no longer referenced by the owning entity instance"));
-    assertEquals(3, count("Item"));
+    assertEquals(3, count("Step"));
   }
 
   @Test
-  void clearingTheCollectionDeletesAllItems() {
+  void swappingStepsInsideTheManagedCollectionWorks() {
     emf.runInTransaction(em -> {
-      Cart cart = em.find(Cart.class, cartId);
-      cart.getItems().clear();
+      Recipe pancakes = em.find(Recipe.class, recipeId);
+      List<Step> newSteps = List.of(new Step("Mix"), new Step("Bake"));
+      pancakes.getSteps().clear();
+      newSteps.forEach(pancakes::addStep);
     });
-    assertEquals(0, count("Item"));
-    assertEquals(1, count("Cart"));
+    assertEquals(List.of("Bake", "Mix"), stepNames());
   }
 
   @Test
-  void swappingItemsInsideTheManagedCollectionWorks() {
+  void removingTagDeletesOnlyTheLink() {
     emf.runInTransaction(em -> {
-      Cart cart = em.find(Cart.class, cartId);
-      List<Item> newItems = List.of(new Item("bread"), new Item("eggs"));
-      cart.getItems().clear();
-      newItems.forEach(cart::addItem);
-    });
-    List<String> names = emf.callInTransaction(em -> em
-        .createQuery("select name from Item order by name", String.class).getResultList());
-    assertEquals(List.of("bread", "eggs"), names);
-  }
-
-  @Test
-  void removingManyToManyLinkKeepsTheTag() {
-    emf.runInTransaction(em -> {
-      Item banana = em.find(Cart.class, cartId).findItem("banana");
-      banana.removeTag(banana.getTags().iterator().next());
+      Recipe pancakes = em.find(Recipe.class, recipeId);
+      pancakes.removeTag(pancakes.getTags().iterator().next());
     });
     assertEquals(1, count("Tag"));
     long links = emf.callInTransaction(em -> ((Number) em
-        .createNativeQuery("select count(*) from item_tag").getSingleResult()).longValue());
+        .createNativeQuery("select count(*) from recipe_tag").getSingleResult()).longValue());
+    assertEquals(0, links);
+  }
     assertEquals(0, links);
   }
 
   @Test
-  void movingItemToAnotherCartUpdatesTheForeignKeyInHibernate() {
-    Long otherId = emf.callInTransaction(em -> {
-      Cart other = new Cart("Alex");
-      em.persist(other);
-      return other.getId();
+  void movingStepToAnotherRecipeUpdatesTheForeignKeyInHibernate() {
+    Long waffleId = emf.callInTransaction(em -> {
+      Recipe waffles = new Recipe("Waffles");
+      em.persist(waffles);
+      return waffles.getId();
     });
     emf.runInTransaction(em -> {
-      Cart cart = em.find(Cart.class, cartId);
-      Cart other = em.find(Cart.class, otherId);
-      Item milk = cart.findItem("milk");
-      cart.removeItem(milk);
-      other.addItem(milk);
+      Recipe pancakes = em.find(Recipe.class, recipeId);
+      Recipe waffles = em.find(Recipe.class, waffleId);
+      Step whisk = pancakes.findStep("Whisk");
+      pancakes.removeStep(whisk);
+      waffles.addStep(whisk);
     });
-    assertEquals(3, count("Item"));
-    long inOther = emf.callInTransaction(em -> em
-        .createQuery("select count(*) from Item where cart.id = :id", Long.class)
-        .setParameter("id", otherId).getSingleResult());
-    assertEquals(1, inOther);
+    assertEquals(3, count("Step"));
+    long inWaffles = emf.callInTransaction(em -> em
+        .createQuery("select count(*) from Step where recipe.id = :id", Long.class)
+        .setParameter("id", waffleId).getSingleResult());
+    assertEquals(1, inWaffles);
   }
 
   @Test
-  void deletingTheCartDeletesItemsAndCoupon() {
-    emf.runInTransaction(em -> em.remove(em.find(Cart.class, cartId)));
-    assertEquals(0, count("Cart"));
-    assertEquals(0, count("Item"));
-    assertEquals(0, count("Coupon"));
+  void deletingTheRecipeDeletesStepsAndNutritionButNotTags() {
+    emf.runInTransaction(em -> em.remove(em.find(Recipe.class, recipeId)));
+    assertEquals(0, count("Recipe"));
+    assertEquals(0, count("Step"));
+    assertEquals(0, count("Nutrition"));
     assertEquals(1, count("Tag"));
+    assertEquals(1, count("Chef"));
+  }
   }
 
   @Test
   void bulkDeleteIgnoresOrphanRemovalAndCascade() {
     assertThrows(PersistenceException.class, () ->
-        emf.runInTransaction(em -> em.createQuery("delete from Cart").executeUpdate()));
-    assertEquals(3, count("Item"));
+        emf.runInTransaction(em -> em.createQuery("delete from Recipe").executeUpdate()));
+    assertEquals(3, count("Step"));
   }
 }

@@ -15,9 +15,8 @@ public final class Database {
 
   public static EntityManagerFactory create(boolean showSql) {
     return new HibernatePersistenceConfiguration("orphan-removal")
-        .managedClasses(Cart.class, Item.class, Coupon.class, Tag.class,
-            Wishlist.class, WishlistItem.class)
-        .jdbcUrl("jdbc:h2:mem:shop;DB_CLOSE_DELAY=-1")
+        .managedClasses(Recipe.class, Step.class, Nutrition.class, Tag.class, Chef.class)
+        .jdbcUrl("jdbc:h2:mem:kitchen;DB_CLOSE_DELAY=-1")
         .jdbcCredentials("sa", "")
         .schemaToolingAction(Action.CREATE_DROP)
         .showSql(showSql, false, false)

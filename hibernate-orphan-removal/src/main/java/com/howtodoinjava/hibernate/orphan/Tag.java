@@ -17,7 +17,7 @@ public class Tag {
   private String name;
 
   @ManyToMany(mappedBy = "tags")
-  private Set<Item> items = new HashSet<>();
+  private Set<Recipe> recipes = new HashSet<>();
 
   protected Tag() {
   }
@@ -34,7 +34,7 @@ public class Tag {
     return name;
   }
 
-  public Set<Item> getItems() {
-    return items;
+  public Set<Recipe> getRecipes() {
+    return recipes;
   }
 }

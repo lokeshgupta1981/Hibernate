@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+                 version="3.2">
+
+  <named-query name="Booking.countByRoom">
+    <query>select count(b) from Booking b where b.room.number = :number</query>
+  </named-query>
+
+  <named-native-query name="Booking.guestsSql">
+    <query>select guest from Booking order by guest</query>
+  </named-native-query>
+
+  <named-native-query name="Booking.guestNames" result-class="java.lang.String">
+    <query>select guest from Booking order by guest</query>
+  </named-native-query>
+
+</entity-mappings>

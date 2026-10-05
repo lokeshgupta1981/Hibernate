@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+                                     https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+                 version="3.2">
+
+  <!-- The whole mapping of the plain Bicycle class (no annotations on the class) -->
+  <entity class="com.howtodoinjava.hibernate.mapping.plain.Bicycle" access="FIELD">
+    <table name="bicycle"/>
+    <attributes>
+      <id name="id">
+        <generated-value/>
+      </id>
+      <basic name="model">
+        <column nullable="false" length="50"/>
+      </basic>
+      <basic name="frameSize">
+        <column name="frame_size"/>
+      </basic>
+      <basic name="dailyRate">
+        <column name="daily_rate" precision="6" scale="2"/>
+      </basic>
+    </attributes>
+  </entity>
+</entity-mappings>

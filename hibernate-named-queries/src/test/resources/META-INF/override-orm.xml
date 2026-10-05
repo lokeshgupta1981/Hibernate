@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+                 version="3.2">
+
+  <!-- Same name as the annotation on Room: this definition replaces it -->
+  <named-query name="Room.findByTypes">
+    <query>select r from Room r where r.type in :types and r.available = true order by r.number</query>
+  </named-query>
+
+</entity-mappings>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence/orm
+                                     https://jakarta.ee/xml/ns/persistence/orm/orm_3_2.xsd"
+                 version="3.2">
+
+  <!-- metadata-complete="true": Hibernate ignores every annotation on the annotated Bicycle -->
+  <entity class="com.howtodoinjava.hibernate.mapping.Bicycle" access="FIELD" metadata-complete="true">
+    <table name="rental_bicycle"/>
+    <attributes>
+      <id name="id">
+        <generated-value/>
+      </id>
+    </attributes>
+  </entity>
+</entity-mappings>
